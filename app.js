@@ -84,11 +84,17 @@ function getLearnerData(course, ag, submissions) {
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
 // console.log(result);
+///////////////////////////////
+// // Helper functions ///////
+/////////////////////////////
 
 // handle Error if id of courses not match!
 function checkAssignmentGroup(id) {
-  if (id !== CourseInfo.id) {
-    throw Error(`Your input is invalid and not match the course!`);
+  // Check if the course and assignment group match.
+  // Return empty if there's an error.
+  if (course.id !== assignmentGroup.course_id) {
+    console.error("Error: Course and assignment group don't match.");
+    return [];
   }
 }
 
@@ -126,20 +132,20 @@ function getAverages(id) {
   return calculateAverage / scores.length;
 }
 
-console.log(getAverages(132));
+console.log(getAverages(125));
 
 /////------//////
-const endResult = [
-  {
-    id: 125,
-    avg: 0.985, // (47 + 150) / (50 + 150)
-    1: 0.94, // 47 / 50
-    2: 1.0, // 150 / 150
-  },
-  {
-    id: 132,
-    avg: 0.82, // (39 + 125) / (50 + 150)
-    1: 0.78, // 39 / 50
-    2: 0.833, // late: (140 - 15) / 150
-  },
-];
+// const endResult = [
+//   {
+//     id: 125,
+//     avg: 0.985, // (47 + 150) / (50 + 150)
+//     1: 0.94, // 47 / 50
+//     2: 1.0, // 150 / 150
+//   },
+//   {
+//     id: 132,
+//     avg: 0.82, // (39 + 125) / (50 + 150)
+//     1: 0.78, // 39 / 50
+//     2: 0.833, // late: (140 - 15) / 150
+//   },
+// ];
