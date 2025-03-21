@@ -88,10 +88,10 @@ const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 // // Helper functions ///////
 /////////////////////////////
 
-// handle Error if id of courses not match!
+// handle Error if id of courses not match
 function checkAssignmentGroup(id) {
-  // Check if the course and assignment group match.
-  // Return empty if there's an error.
+  // Check if the course and assignment group match
+  // Return empty if there's an error
   if (course.id !== assignmentGroup.course_id) {
     console.error("Error: Course and assignment group don't match.");
     return [];
@@ -104,15 +104,18 @@ function getAverages(id) {
 
   for (let items of LearnerSubmissions) {
     let score = items.submission.score;
-    // console.log(score);
+
     if (items.learner_id === id) {
       let submitDate = items.submission.submitted_at;
 
       // check if date is due
       for (const item of AssignmentGroup.assignments) {
-        let dueDate = item.due_at;
-        if (submitDate <= dueDate) {
-          scores.push(score);
+        if (item.id === items.assignment_id) {
+          let dueDate = item.due_at;
+          console.log(dueDate);
+          if (submitDate <= dueDate) {
+            scores.push(score);
+          }
         }
       }
     }
