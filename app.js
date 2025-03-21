@@ -81,18 +81,52 @@ function getLearnerData(course, ag, submissions) {
 
   // return result;
 }
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
+// console.log(result);
+
+// handle Error if id of courses not match!
 function checkAssignmentGroup(id) {
   if (id !== CourseInfo.id) {
     throw Error(`Your input is invalid and not match the course!`);
   }
 }
 
-// console.log(checkAssignmentGroup(411));
+// handle lerner average
+function getAverages(id) {
+  let scores = [];
 
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+  for (let items of LearnerSubmissions) {
+    let score = items.submission.score;
+    // console.log(score);
+    if (items.learner_id === id) {
+      let submitDate = items.submission.submitted_at;
 
-console.log(result);
+      // check if date is due
+      for (const item of AssignmentGroup.assignments) {
+        let dueDate = item.due_at;
+        if (submitDate <= dueDate) {
+          scores.push(score);
+        }
+      }
+    }
+  }
+  console.log(scores);
+
+  if (scores.length === 0) {
+    return 0;
+  }
+
+  let calculateAverage = 0;
+
+  for (let i = 0; i < scores.length; i++) {
+    calculateAverage += scores[i];
+  }
+
+  return calculateAverage / scores.length;
+}
+
+console.log(getAverages(132));
 
 /////------//////
 const endResult = [
