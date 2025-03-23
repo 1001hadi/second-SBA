@@ -166,9 +166,8 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
 
       totalScore += score.score;
       totalPossibleScore += score.points_possible;
-      assignmentScoresObj[score.assignment_id] = Number(
-        (score.score / score.points_possible) * 100
-      );
+      assignmentScoresObj[score.assignment_id] =
+        Number((score.score / score.points_possible).toFixed(2) * 100) + "%";
       console.log(assignmentScoresObj);
     }
 
@@ -183,7 +182,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     // push the values{obj} to result array and return it
     result.push({
       id: Number(learner),
-      average: Number(averageScores * 100),
+      average: Number(averageScores * 100) + "%",
       ...assignmentScoresObj,
     });
   }
