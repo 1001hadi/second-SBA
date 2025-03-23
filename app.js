@@ -172,7 +172,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
       console.log(assignmentScoresObj);
     }
 
-    // get average of scores
+    // get average of scores return 0 if not matched
     let averageScores = 0;
     if (totalPossibleScore > 0) {
       averageScores = totalScore / totalPossibleScore;
@@ -181,12 +181,17 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     }
 
     // push the values{obj} to result array and return it
+    result.push({
+      id: Number(learner),
+      average: Number(averageScores * 100),
+      ...assignmentScoresObj,
+    });
   }
 
-  // return result;
+  return result;
 }
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-// console.log(result);
+console.log(result);
 
 //
 ///////////////////////////////
