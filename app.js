@@ -143,14 +143,34 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     let leanerData = learnerScores[learner];
     let totalScore = 0;
     let totalPossibleScore = 0;
-    let assignmentScores = {};
+    let assignmentScoresObj = {};
 
     for (let h = 0; h < leanerData.scores.length; h++) {
       let score = leanerData.scores[h];
       // console.log(score);
+
+      // check if score is not positive number, log msg to console
+      if (typeof score.score !== "number") {
+        console.log("score must be a positive number!");
+        return;
+      }
+      if (
+        typeof score.points_possible !== "number" ||
+        score.points_possible === 0
+      ) {
+        console.log("possible point only can be a positive number!");
+        return;
+      }
+
+      // add total scores, possible scores and assignment score values to their variables
+
+      totalScore += score.score;
+      totalPossibleScore += score.points_possible;
+      assignmentScoresObj[score.assignment_id] = Number(
+        (score.score / score.points_possible) * 100
+      );
+      console.log(assignmentScoresObj);
     }
-
-
   }
 
   // return result;
