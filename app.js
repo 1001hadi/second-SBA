@@ -124,7 +124,14 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
             score = 0;
           }
         }
-        
+
+        // push learners score to their obj of data
+        learnerScores[submission.learner_id].scores.push({
+          assignment_id: submission.assignment_id,
+          score: score,
+          points_possible: assignment.points_possible,
+        });
+        console.log(learnerScores);
       }
     }
   }
@@ -134,7 +141,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
   // return result;
 }
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-console.log(result);
+// console.log(result);
 
 //
 ///////////////////////////////
