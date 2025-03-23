@@ -86,7 +86,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
   // create leaner obj to store their data
   // get current date
   // iterate through learner submissions and find the assignment in the assignment group
-  // if an assignment is found,
+  // if an assignment is found, check if its due.
   let learnerScores = {};
   let currDate = new Date();
 
@@ -95,10 +95,36 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     let assignment;
 
     for (let j = 0; j < assignmentGroup.assignments.length; j++) {
-      if (assignmentGroup.assignments[j].id === submission.assignment_id) {
-        assignment = assignmentGroup[j];
-        console.log(assignment);
+      let assignmentData = assignmentGroup.assignments[j];
+      if (assignmentData.id === submission.assignment_id) {
+        assignment = assignmentData;
+        // console.log(assignment);
         break;
+      }
+    }
+
+    if (assignment) {
+      let dueDate = new Date(assignment.due_at);
+      if (dueDate < currDate) {
+        if (!learnerScores[submission.learner_id]) {
+          learnerScores[submission.learner_id] = {};
+        }
+        if (!learnerScores[submission.learner_id].scores) {
+          learnerScores[submission.learner_id].scores = [];
+        }
+
+        // check if submission is due cut 10%, make sure score not going negative
+        let score = submission.submission.score;
+
+        let submitDate = new Date(submission.submission.submitted_at);
+        // console.log(submitDate);
+        if (submitDate > dueDate) {
+          score - +assignment.points_possible * 0.1;
+          if (score < 0) {
+            score = 0;
+          }
+        }
+        
       }
     }
   }
