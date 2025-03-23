@@ -171,6 +171,16 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
       );
       console.log(assignmentScoresObj);
     }
+
+    // get average of scores
+    let averageScores = 0;
+    if (totalPossibleScore > 0) {
+      averageScores = totalScore / totalPossibleScore;
+    } else {
+      averageScores = 0;
+    }
+
+    // push the values{obj} to result array and return it
   }
 
   // return result;
