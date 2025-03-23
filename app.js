@@ -76,17 +76,39 @@ const LearnerSubmissions = [
   },
 ];
 
-function getLearnerData(course, ag, submissions) {
+function getLearnerData(course, assignmentGroup, learnerSubmissions) {
+  // check if course id and assignment id match
   if (course.id !== assignmentGroup.course_id) {
     console.error("Error: Course and assignment group don't match.");
     return [];
   }
-  const result = [];
+
+  // create leaner obj to store their data
+  // get current date
+  // iterate through learner submissions and find the assignment in the assignment group
+  // if an assignment is found,
+  let learnerScores = {};
+  let currDate = new Date();
+
+  for (let i = 0; i < learnerSubmissions.length; i++) {
+    let submission = learnerSubmissions[i];
+    let assignment;
+
+    for (let j = 0; j < assignmentGroup.assignments.length; j++) {
+      if (assignmentGroup.assignments[j].id === submission.assignment_id) {
+        assignment = assignmentGroup[j];
+        console.log(assignment);
+        break;
+      }
+    }
+  }
+
+  // const result = [];
 
   // return result;
 }
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-// console.log(result);
+console.log(result);
 
 //
 ///////////////////////////////
@@ -94,47 +116,47 @@ const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 /////////////////////////////
 
 // handle lerner average
-function getAverages(id) {
-  let scores = [];
-  let possiblePoints = 0;
+// function getAverages(id) {
+//   let scores = [];
+//   let possiblePoints = 0;
 
-  for (let items of LearnerSubmissions) {
-    let score = items.submission.score;
+//   for (let items of LearnerSubmissions) {
+//     let score = items.submission.score;
 
-    if (items.learner_id === id) {
-      let submitDate = items.submission.submitted_at;
+//     if (items.learner_id === id) {
+//       let submitDate = items.submission.submitted_at;
 
-      // check if date is due
-      for (const item of AssignmentGroup.assignments) {
-        if (item.id === items.assignment_id) {
-          let dueDate = item.due_at;
+//       // check if date is due
+//       for (const item of AssignmentGroup.assignments) {
+//         if (item.id === items.assignment_id) {
+//           let dueDate = item.due_at;
 
-          if (submitDate <= dueDate) {
-            scores.push(score);
-            // adding data's possible point.
-            possiblePoints += item.points_possible;
-          }
-        }
-      }
-    }
-  }
+//           if (submitDate <= dueDate) {
+//             scores.push(score);
+//             // adding data's possible point.
+//             possiblePoints += item.points_possible;
+//           }
+//         }
+//       }
+//     }
+//   }
 
-  if (scores.length === 0) {
-    return "0%";
-  }
+//   if (scores.length === 0) {
+//     return "0%";
+//   }
 
-  let calculateAverage = 0;
+//   let calculateAverage = 0;
 
-  for (let i = 0; i < scores.length; i++) {
-    calculateAverage += scores[i];
-  }
+//   for (let i = 0; i < scores.length; i++) {
+//     calculateAverage += scores[i];
+//   }
 
-  let average = (calculateAverage / possiblePoints) * 100;
+//   let average = (calculateAverage / possiblePoints) * 100;
 
-  return average.toFixed(2) + "%";
-}
+//   return average.toFixed(2) + "%";
+// }
 
-console.log(getAverages(125));
+// console.log(getAverages(125));
 
 /////------//////
 // const endResult = [
