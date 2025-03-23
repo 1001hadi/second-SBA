@@ -83,6 +83,8 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     return [];
   }
 
+  const result = [];
+
   // create leaner obj to store their data
   // get current date
   // iterate through learner submissions and find the assignment in the assignment group
@@ -131,12 +133,25 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
           score: score,
           points_possible: assignment.points_possible,
         });
-        console.log(learnerScores);
+        // console.log(learnerScores);
       }
     }
   }
 
-  // const result = [];
+  // iterate over learner scores obj and check their scores.
+  for (let learner in learnerScores) {
+    let leanerData = learnerScores[learner];
+    let totalScore = 0;
+    let totalPossibleScore = 0;
+    let assignmentScores = {};
+
+    for (let h = 0; h < leanerData.scores.length; h++) {
+      let score = leanerData.scores[h];
+      // console.log(score);
+    }
+
+
+  }
 
   // return result;
 }
