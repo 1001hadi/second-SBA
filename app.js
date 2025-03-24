@@ -76,9 +76,10 @@ const LearnerSubmissions = [
   },
 ];
 
+// i changed the function parameters name to more meaning full name from original given example
 function getLearnerData(course, assignmentGroup, learnerSubmissions) {
   try {
-    // check if course id and assignment id match
+    // check if courseInfo id and assignment id match
     if (course.id !== assignmentGroup.course_id) {
       console.log("course id and assignment group id must match!");
       return [];
@@ -90,7 +91,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     // get current date
     // iterate through learner submissions and find the assignment in the assignment group
     // if an assignment is found, check if its due.
-    let learnerScores = {};
+    const learnerScores = {};
     let currDate = new Date();
 
     // iterate over learner submission to get submission data
