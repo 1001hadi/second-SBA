@@ -79,7 +79,7 @@ const LearnerSubmissions = [
 function getLearnerData(course, assignmentGroup, learnerSubmissions) {
   // check if course id and assignment id match
   if (course.id !== assignmentGroup.course_id) {
-    console.error("Error: Course and assignment group don't match.");
+    console.log("course id and assignment group id must match!");
     return [];
   }
 
@@ -92,19 +92,23 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
   let learnerScores = {};
   let currDate = new Date();
 
+  // iterate over learner submission to get submission data
   for (let i = 0; i < learnerSubmissions.length; i++) {
     let submission = learnerSubmissions[i];
     let assignment;
 
+    // iterate over assignments to get assignment data
+    // and assign it to assignment var, when collect the data break;
     for (let j = 0; j < assignmentGroup.assignments.length; j++) {
       let assignmentData = assignmentGroup.assignments[j];
       if (assignmentData.id === submission.assignment_id) {
         assignment = assignmentData;
-        // console.log(assignment);
         break;
       }
     }
 
+    // check if the assignments are due,
+    //  if not and match the learner, add them to learner score
     if (assignment) {
       let dueDate = new Date(assignment.due_at);
       if (dueDate < currDate) {
@@ -133,7 +137,6 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
           score: score,
           points_possible: assignment.points_possible,
         });
-        // console.log(learnerScores);
       }
     }
   }
@@ -163,12 +166,11 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
       }
 
       // add total scores, possible scores and assignment score values to their variables
-
       totalScore += score.score;
       totalPossibleScore += score.points_possible;
-      assignmentScoresObj[score.assignment_id] =
-        Number((score.score / score.points_possible).toFixed(2) * 100) + "%";
-      console.log(assignmentScoresObj);
+      assignmentScoresObj[score.assignment_id] = Number(
+        (score.score / score.points_possible).toFixed(2) * 100
+      );
     }
 
     // get average of scores return 0 if not matched
@@ -182,7 +184,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
     // push the values{obj} to result array and return it
     result.push({
       id: Number(learner),
-      average: Number(averageScores * 100) + "%",
+      average: Number(averageScores * 100),
       ...assignmentScoresObj,
     });
   }
@@ -192,54 +194,7 @@ function getLearnerData(course, assignmentGroup, learnerSubmissions) {
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 console.log(result);
 
-//
-///////////////////////////////
-// // Helper functions ///////
-/////////////////////////////
-
-// handle lerner average
-// function getAverages(id) {
-//   let scores = [];
-//   let possiblePoints = 0;
-
-//   for (let items of LearnerSubmissions) {
-//     let score = items.submission.score;
-
-//     if (items.learner_id === id) {
-//       let submitDate = items.submission.submitted_at;
-
-//       // check if date is due
-//       for (const item of AssignmentGroup.assignments) {
-//         if (item.id === items.assignment_id) {
-//           let dueDate = item.due_at;
-
-//           if (submitDate <= dueDate) {
-//             scores.push(score);
-//             // adding data's possible point.
-//             possiblePoints += item.points_possible;
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   if (scores.length === 0) {
-//     return "0%";
-//   }
-
-//   let calculateAverage = 0;
-
-//   for (let i = 0; i < scores.length; i++) {
-//     calculateAverage += scores[i];
-//   }
-
-//   let average = (calculateAverage / possiblePoints) * 100;
-
-//   return average.toFixed(2) + "%";
-// }
-
-// console.log(getAverages(125));
-
+//////////////////
 /////------//////
 // const endResult = [
 //   {
